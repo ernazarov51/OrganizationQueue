@@ -1,0 +1,31 @@
+organization lar royxatdan otadi va uni admin tasdiqlaydi.
+Organization o'zining xizmatlarini yaratishi mumkin
+shu xizmat uchun navbat tashqil qilinadi
+userlarga navbati kelganidan song real time notification yuboriladi
+
+Misol uchun:
+endpoints:
+        POST api/v1/register/
+        POST api/v1/token/
+
+    Organization create
+        POST add-request-organization
+        POST accept-organization
+
+    service create
+        POST add-service
+
+    POST request-queue/service_id/ - Servisga navbatga yozilish
+    DELETE delete-queue/service_id/ - Navbatni bekor qilish
+
+
+
+login ✅
+register ✅
+full crud for organization/ permissions: IsOwner ✅
+full crud for service - permissions: IsOwner  ✅
+create-queue for only users  ✅
+delete-queue
+GET service-user/ - navbatdagi userga xizmat korsatish
+
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket JSON Debug</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #ffffff; /* oq fon */
+            color: #000000;
+            padding: 20px;
+        }
+
+        #status {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border: 1px solid #000;
+            border-radius: 5px;
+        }
+
+        #output {
+            margin-top: 50px;
+            white-space: pre-wrap;
+            border: 1px solid #000;
+            padding: 15px;
+            border-radius: 8px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📡 WebSocket JSON Debug</h1>
+<div id="status">Connecting...</div>
+<div id="output"></div>
+<h1 id="username" style="font-size: 32px; margin-bottom: 10px;"></h1>
+
+
+<script>
+    const statusEl = document.getElementById("status");
+    const outputEl = document.getElementById("output");
+    const usernameEl = document.getElementById("username");
+
+    const token = "{{ token }}";
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+    const host = window.location.host;
+
+    const socket = new WebSocket(`${protocol}://${host}/ws/notifications/?token=${token}`);
+
+
+    socket.onopen = function () {
+        statusEl.textContent = "Connected ✅";
+    };
+
+    socket.onerror = function () {
+        statusEl.textContent = "Error ⚠️";
+    };
+
+    socket.onclose = function () {
+        statusEl.textContent = "Disconnected ❌";
+    };
+
+    socket.onmessage = function (event) {
+        console.log("Received:", event.data);
+
+        try {
+            const data = JSON.parse(event.data);
+
+            if (data.username) {
+                usernameEl.textContent = `👤 ${data.username}`;
+                return;
+            }
+
+            outputEl.textContent += JSON.stringify(data, null, 2) + "\n\n";
+
+        } catch (err) {
+            outputEl.textContent += event.data + "\n";
+        }
+    };
+</script>
+
+</body>
+</html>
