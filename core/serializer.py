@@ -150,6 +150,8 @@ class ServiceHistoryModelSerializer(ModelSerializer):
             }
 
         )
+        queue.status='finished'
+        queue.save()
         next_queue=Queue.objects.filter(id=queue.id+1)
         if next_queue:
             next_queue=next_queue.first()

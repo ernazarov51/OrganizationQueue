@@ -75,6 +75,7 @@ class QueueCreateAPIView(CreateAPIView):
 
 
 class ServiceHistoryCreateAPIView(CreateAPIView):
+    permission_classes([IsAuthenticated,IsEmployeePermission])
     serializer_class =ServiceHistoryModelSerializer
     queryset = ServiceHistory.objects.all()
 
